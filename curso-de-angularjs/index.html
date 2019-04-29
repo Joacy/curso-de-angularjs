@@ -31,43 +31,65 @@
 
 	<div class="container">
 		<div class="d-flex flex-row justify-content-center row">
-			<div class="table-responsive">
-				<table ng-show="contatos.length > 0" class="table">
-					<thead class="thead-dark">
-						<tr class="centro">
-							<th></th>
-							<th>Nome</th>
-							<th>Telefone</th>
-							<th>Operadora</th>
-						</tr>	
-					</thead>
+			<div class="col-12 col-md-8 col-lg-6">
+				<div class="d-flex flex-row justify-content-center row">
+					<div class="table-responsive">
+						<table ng-show="contatos.length > 0" class="table">
+							<thead class="thead-dark">
+								<tr class="centro">
+									<th></th>
+									<th>Nome</th>
+									<th>Telefone</th>
+									<th>Operadora</th>
+								</tr>	
+							</thead>
 
-					<tbody>
-						<tr class="centro" ng-class="{selecionado: contato.selecionado}" ng-repeat="contato in contatos">
-							<td><input type="checkbox" ng-model="contato.selecionado"/></td>
-							<td>{{contato.nome}}</td>
-							<td>{{contato.telefone}}</td>
-							<td>{{contato.operadora.nome}}</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-			<div class="col-12">
-				<input class="form-control" type="text" placeholder="Nome" ng-model="contato.nome"/>
-			</div>
-			<div class="col-12">
-				<input class="form-control" type="text" placeholder="Telefone" ng-model="contato.telefone"/>
-			</div>
-			<div class="col-12">
-				<select class="form-control" ng-model="contato.operadora" ng-options="operadora.nome group by operadora.categoria for operadora in operadoras">
-					<option disabled value="">Selecione uma Operadora</option>
-				</select>
-			</div>
-			<div class="col-12">
-				<button class="btn btn-primary" ng-click="adicionarContato(contato)" ng-disabled="!contato.nome || !contato.telefone">Adicionar Contato</button>
-			</div>
-			<div class="col-12">
-				<button class="btn btn-danger" ng-click="removerContato(contatos)" ng-show="contatoSelecionado(contatos)">Remover Contato</button>
+							<tbody>
+								<tr class="centro" ng-class="{selecionado: contato.selecionado}" ng-repeat="contato in contatos">
+									<td><input type="checkbox" ng-model="contato.selecionado"/></td>
+									<td>{{contato.nome}}</td>
+									<td>{{contato.telefone}}</td>
+									<td>{{contato.operadora.nome}}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					É válido? {{contatoForm.$valid}}<br>
+					É inválido? {{contatoForm.$invalid}}<br>
+					<form name="contatoForm">
+						<div class="col-12">
+							<input class="form-control" type="text" placeholder="Nome" ng-model="contato.nome" name="nome" ng-required="true"/>
+						</div>
+						<div class="col-12">
+							<input class="form-control" type="text" placeholder="Telefone" ng-model="contato.telefone" name="telefone" ng-required="true"/>
+						</div>
+						<div class="col-12">
+							<select class="form-control" ng-model="contato.operadora" ng-options="operadora.nome group by operadora.categoria for operadora in operadoras">
+								<option disabled value="">Selecione uma Operadora</option>
+							</select>
+						</div>
+					</form>
+					<div ng-show="contatoForm.nome.$invalid && contatoForm.nome.$dirty" class="col-12">
+						<div class="alert alert-danger">
+							<p class="centro">
+								Por favor, preencha o campo nome!
+							</p>
+						</div>
+					</div>
+					<div ng-show="contatoForm.telefone.$invalid && contatoForm.telefone.$dirty" class="col-12">
+						<div class="alert alert-danger">
+							<p class="centro">
+								Por favor, preencha o campo telefone!
+							</p>
+						</div>
+					</div>
+					<div class="col-12">
+						<button class="btn btn-primary" ng-click="adicionarContato(contato)" ng-disabled="contatoForm.$invalid">Adicionar Contato</button>
+					</div>
+					<div class="col-12">
+						<button class="btn btn-danger" ng-click="removerContato(contatos)" ng-show="contatoSelecionado(contatos)">Remover Contato</button>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -122,6 +144,7 @@
 			$scope.adicionarContato = function(contato){
 				$scope.contatos.push(angular.copy(contato));
 				delete $scope.contato;
+				$scope.contatoForm.$setPristine();
 			};
 			$scope.removerContato = function(contatos){
 				$scope.contatos = contatos.filter(function (contato){
