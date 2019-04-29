@@ -84,7 +84,7 @@ button.btn{
 }
 
 .selecionado{
-	background: green;
+	background: rgb(0, 128, 96);
 	color: #ffffff;
 	font-weight: 700;
 }
