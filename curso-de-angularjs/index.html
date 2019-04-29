@@ -32,8 +32,7 @@
 	<div class="container">
 		<div class="d-flex flex-row justify-content-center row">
 			<div class="table-responsive">
-				{{contatos}}
-				<table class="table">
+				<table ng-show="contatos.length > 0" class="table">
 					<thead class="thead-dark">
 						<tr class="centro">
 							<th></th>
@@ -68,11 +67,13 @@
 				<button class="btn btn-primary" ng-click="adicionarContato(contato)" ng-disabled="!contato.nome || !contato.telefone">Adicionar Contato</button>
 			</div>
 			<div class="col-12">
-				<button class="btn btn-danger" ng-click="removerContato(contatos)" ng-disabled="!contatoSelecionado(contatos)">Remover Contato</button>
+				<button class="btn btn-danger" ng-click="removerContato(contatos)" ng-show="contatoSelecionado(contatos)">Remover Contato</button>
 			</div>
 		</div>
 	</div>
 	
+	<div ng-include="'footer.html'"></div>
+
 	<script type="text/javascript">
 		angular.module("listaTelefonica", []);
 		angular.module("listaTelefonica").controller("listaTelefonicaCtrl", function($scope){
