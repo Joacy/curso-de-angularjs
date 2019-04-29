@@ -50,9 +50,9 @@
 								<tr class="centro" ng-class="{selecionado: contato.selecionado}"
 									ng-repeat="contato in contatos">
 									<td><input type="checkbox" ng-model="contato.selecionado" /></td>
-									<td>{{contato.nome}}</td>
+									<td>{{contato.nome | uppercase}}</td>
 									<td>{{contato.telefone}}</td>
-									<td>{{contato.operadora.nome}}</td>
+									<td>{{contato.operadora.nome | lowercase}}</td>
 								</tr>
 							</tbody>
 						</table>
