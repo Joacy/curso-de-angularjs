@@ -19,7 +19,7 @@
 	<link rel="shortcut icon" href="imagens/logo.png" type="image/x-icon">
 	<link rel="icon" href="imagens/logo.png" type="image/x-icon">
 </head>
-<body  ng-controller="listaTelefonicaCtrl">
+<body ng-controller="listaTelefonicaCtrl">
 
 	<section class="principal">
 		<div class="container">
@@ -42,12 +42,20 @@
 
 					<tbody>
 						<tr class="centro" ng-repeat="contato in contatos">
-							<td ng-repeat="(key, value) in contato">
-								{{value}}
-							</td>
+							<td>{{contato.nome}}</td>
+							<td>{{contato.telefone}}</td>
 						</tr>
 					</tbody>
 				</table>
+			</div>
+			<div class="col-12">
+				<input class="form-control" type="text" placeholder="Nome" ng-model="contato.nome"/>
+			</div>
+			<div class="col-12">
+				<input class="form-control" type="text" placeholder="Telefone" ng-model="contato.telefone"/>
+			</div>
+			<div class="col-12">
+				<button ng-click="adicionarContato(contato)">Adicionar Contato</button>
 			</div>
 		</div>
 	</div>
@@ -70,6 +78,10 @@
 				telefone: "999999997"
 			}
 			];
+			$scope.adicionarContato = function(contato){
+				$scope.contatos.push(angular.copy(contato));
+				delete $scope.contato;
+			};
 		});
 	</script>
 
