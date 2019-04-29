@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html ng-app="listaTelefonica">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<title>Lista Telefônica</title>
+
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Hind:300,400,500,600,700">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+	<link rel="stylesheet" href="css/styles.css">
+
+	<link rel="shortcut icon" href="imagens/logo.png" type="image/x-icon">
+	<link rel="icon" href="imagens/logo.png" type="image/x-icon">
+</head>
+<body  ng-controller="listaTelefonicaCtrl">
+
+	<section class="principal">
+		<div class="container">
+			<div class="d-flex flex-row justify-content-center">
+				<h3>{{app}}</h3>
+			</div>
+		</div>
+	</section>
+
+	<div class="container">
+		<div class="d-flex flex-row justify-content-center row">
+			<div class="table-responsive">
+				<table class="table table-striped">
+					<thead class="thead-dark">
+						<tr class="centro">
+							<th>Nome</th>
+							<th>Telefone</th>
+						</tr>	
+					</thead>
+
+					<tbody>
+						<tr class="centro" ng-repeat="contato in contatos">
+							<td ng-repeat="(key, value) in contato">
+								{{value}}
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+		angular.module("listaTelefonica", []);
+		angular.module("listaTelefonica").controller("listaTelefonicaCtrl", function($scope){
+			$scope.app = "Lista Telefônica";
+			$scope.contatos = [
+			{
+				nome: "Pedro",
+				telefone: "999999999"
+			},
+			{
+				nome: "Ana",
+				telefone: "999999998"
+			},
+			{
+				nome: "Maria",
+				telefone: "999999997"
+			}
+			];
+		});
+	</script>
+
+</body>
+
+</html>
