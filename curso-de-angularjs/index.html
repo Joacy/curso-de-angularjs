@@ -43,6 +43,7 @@
 									<th>Nome</th>
 									<th>Telefone</th>
 									<th>Operadora</th>
+									<th>Data</th>
 								</tr>
 							</thead>
 
@@ -53,6 +54,7 @@
 									<td>{{contato.nome | uppercase}}</td>
 									<td>{{contato.telefone}}</td>
 									<td>{{contato.operadora.nome | lowercase}}</td>
+									<td>{{contato.data | date:'dd/MM/yyyy HH:mm'}}</td>
 								</tr>
 							</tbody>
 						</table>
@@ -125,15 +127,17 @@
 				{
 					nome: "Pedro",
 					telefone: "999999999",
+					data: new Date(),
 					operadora: {
 						nome: "Oi",
 						codigo: "14",
 						categoria: "Celular"
-					},
+					}
 				},
 				{
 					nome: "Ana",
 					telefone: "999999998",
+					data: new Date(),
 					operadora: {
 						nome: "Vivo",
 						codigo: "15",
@@ -143,6 +147,7 @@
 				{
 					nome: "Maria",
 					telefone: "999999997",
+					data: new Date(),
 					operadora: {
 						nome: "Tim",
 						codigo: "41",
