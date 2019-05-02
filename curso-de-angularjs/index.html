@@ -35,7 +35,8 @@
 		<div class="d-flex flex-row justify-content-center row">
 			<div class="col-12 col-md-8 col-lg-6">
 				<div class="d-flex flex-row justify-content-center row">
-					<input class="form-control" type="text" ng-model="criterioDeBusca" placeholder="O que você está buscando?"/>
+					<input class="form-control" type="text" ng-model="criterioDeBusca"
+						placeholder="O que você está buscando?" />
 					<div class="table-responsive">
 						<table ng-show="contatos.length > 0" class="table">
 							<thead class="thead-dark">
@@ -72,7 +73,7 @@
 						</div>
 						<div class="col-12">
 							<select class="form-control" ng-model="contato.operadora"
-								ng-options="operadora.nome group by operadora.categoria for operadora in operadoras | orderBy:'nome'">
+								ng-options="operadora.nome + ' ('+ (operadora.preco | currency ) + ')' group by operadora.categoria for operadora in operadoras | orderBy:'nome'">
 								<option disabled value="">Selecione uma Operadora</option>
 							</select>
 						</div>
@@ -122,72 +123,34 @@
 
 	<script type="text/javascript">
 		angular.module("listaTelefonica", []);
-		angular.module("listaTelefonica").controller("listaTelefonicaCtrl", function ($scope) {
+		angular.module("listaTelefonica").controller("listaTelefonicaCtrl", function ($scope, $http) {
 			$scope.app = "Lista Telefônica";
-			$scope.contatos = [
-				{
-					nome: "Pedro",
-					telefone: "999999999",
-					data: new Date(),
-					operadora: {
-						nome: "Oi",
-						codigo: "14",
-						categoria: "Celular"
-					}
-				},
-				{
-					nome: "Ana",
-					telefone: "999999998",
-					data: new Date(),
-					operadora: {
-						nome: "Vivo",
-						codigo: "15",
-						categoria: "Celular"
-					}
-				},
-				{
-					nome: "Maria",
-					telefone: "999999997",
-					data: new Date(),
-					operadora: {
-						nome: "Tim",
-						codigo: "41",
-						categoria: "Celular"
-					}
-				}
-			];
-			$scope.operadoras = [
-				{
-					nome: "Oi",
-					codigo: "14",
-					categoria: "Celular"
-				},
-				{
-					nome: "Vivo",
-					codigo: "15",
-					categoria: "Celular"
-				},
-				{
-					nome: "Tim",
-					codigo: "41",
-					categoria: "Celular"
-				},
-				{
-					nome: "GVT",
-					codigo: "25",
-					categoria: "Fixo"
-				},
-				{
-					nome: "Embratel",
-					codigo: "21",
-					categoria: "Fixo"
-				}
-			];
+
+			$scope.contatos = [];
+
+			$scope.operadoras = [];
+
+			var carregarContatos = function () {
+				$http.get("http://localhost:3412/contatos").then(function (data) {
+					$scope.contatos = data;
+				});
+			}
+
+			var carregarOperadoras = function () {
+				$http.get("http://localhost:3412/operadoras").then(function (data) {
+					$scope.operadoras = data;
+				});
+			}
+
 			$scope.adicionarContato = function (contato) {
-				$scope.contatos.push(angular.copy(contato));
-				delete $scope.contato;
-				$scope.contatoForm.$setPristine();
+				contato.data = new Date();
+				$http.post("http://localhost:3412/contatos", contato).then(function (data) {
+					delete $scope.contato;
+					$scope.contatoForm.$setPristine();
+					carregarContatos();
+				});
 			};
+
 			$scope.removerContato = function (contatos) {
 				$scope.contatos = contatos.filter(function (contato) {
 					if (!contato.selecionado) {
@@ -195,15 +158,20 @@
 					}
 				});
 			};
+
 			$scope.contatoSelecionado = function (contatos) {
 				return contatos.some(function (contato) {
 					return contato.selecionado;
 				});
 			};
-			$scope.ordenarPor = function(campo){
+
+			$scope.ordenarPor = function (campo) {
 				$scope.criterioDeOrdenacao = campo;
 				$scope.direcaoDaOrdenacao = !$scope.direcaoDaOrdenacao;
 			}
+
+			carregarContatos();
+			carregarOperadoras();
 		});
 	</script>
 
