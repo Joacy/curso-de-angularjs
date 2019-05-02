@@ -35,6 +35,7 @@
 		<div class="d-flex flex-row justify-content-center row">
 			<div class="col-12 col-md-8 col-lg-6">
 				<div class="d-flex flex-row justify-content-center row">
+					<input class="form-control" type="text" ng-model="criterioDeBusca" placeholder="O que você está buscando?"/>
 					<div class="table-responsive">
 						<table ng-show="contatos.length > 0" class="table">
 							<thead class="thead-dark">
@@ -49,7 +50,7 @@
 
 							<tbody>
 								<tr class="centro" ng-class="{selecionado: contato.selecionado}"
-									ng-repeat="contato in contatos">
+									ng-repeat="contato in contatos | filter:{nome: criterioDeBusca}">
 									<td><input type="checkbox" ng-model="contato.selecionado" /></td>
 									<td>{{contato.nome | uppercase}}</td>
 									<td>{{contato.telefone}}</td>
