@@ -131,20 +131,20 @@
 			$scope.operadoras = [];
 
 			var carregarContatos = function () {
-				$http.get("http://localhost:3412/contatos").then(function (data) {
-					$scope.contatos = data;
+				$http.get("http://localhost:3412/contatos").then(function (response) {
+					$scope.contatos = response.data;
 				});
 			}
 
 			var carregarOperadoras = function () {
-				$http.get("http://localhost:3412/operadoras").then(function (data) {
-					$scope.operadoras = data;
+				$http.get("http://localhost:3412/operadoras").then(function (response) {
+					$scope.operadoras = response.data;
 				});
 			}
 
 			$scope.adicionarContato = function (contato) {
 				contato.data = new Date();
-				$http.post("http://localhost:3412/contatos", contato).then(function (data) {
+				$http.post("http://localhost:3412/contatos", contato).then(function (response) {
 					delete $scope.contato;
 					$scope.contatoForm.$setPristine();
 					carregarContatos();
