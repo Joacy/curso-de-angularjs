@@ -148,6 +148,8 @@
 					delete $scope.contato;
 					$scope.contatoForm.$setPristine();
 					carregarContatos();
+				}).catch(function (){
+					console.log('Erro no Post');
 				});
 			};
 
