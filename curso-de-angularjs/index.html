@@ -19,6 +19,9 @@
 
 	<link rel="shortcut icon" href="imagens/logo.png" type="image/x-icon">
 	<link rel="icon" href="imagens/logo.png" type="image/x-icon">
+
+	<script src="js/app.js"></script>
+	<script src="js/controllers/listaTelefonicaCtrl.js"></script>
 </head>
 
 <body ng-controller="listaTelefonicaCtrl">
@@ -119,63 +122,7 @@
 		</div>
 	</div>
 
-	<div ng-include="'footer.html'"></div>
-
-	<script type="text/javascript">
-		angular.module("listaTelefonica", []);
-		angular.module("listaTelefonica").controller("listaTelefonicaCtrl", function ($scope, $http) {
-			$scope.app = "Lista Telefônica";
-
-			$scope.contatos = [];
-
-			$scope.operadoras = [];
-
-			var carregarContatos = function () {
-				$http.get("http://localhost:3412/contatos").then(function (response) {
-					$scope.contatos = response.data;
-				});
-			}
-
-			var carregarOperadoras = function () {
-				$http.get("http://localhost:3412/operadoras").then(function (response) {
-					$scope.operadoras = response.data;
-				});
-			}
-
-			$scope.adicionarContato = function (contato) {
-				contato.data = new Date();
-				$http.post("http://localhost:3412/contatos", contato).then(function (response) {
-					delete $scope.contato;
-					$scope.contatoForm.$setPristine();
-					carregarContatos();
-				}).catch(function (){
-					console.log('Erro no Post');
-				});
-			};
-
-			$scope.removerContato = function (contatos) {
-				$scope.contatos = contatos.filter(function (contato) {
-					if (!contato.selecionado) {
-						return contato;
-					}
-				});
-			};
-
-			$scope.contatoSelecionado = function (contatos) {
-				return contatos.some(function (contato) {
-					return contato.selecionado;
-				});
-			};
-
-			$scope.ordenarPor = function (campo) {
-				$scope.criterioDeOrdenacao = campo;
-				$scope.direcaoDaOrdenacao = !$scope.direcaoDaOrdenacao;
-			}
-
-			carregarContatos();
-			carregarOperadoras();
-		});
-	</script>
+	<div ng-include="'view/footer.html'"></div>
 
 </body>
 
