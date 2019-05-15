@@ -1,5 +1,5 @@
-angular.module("listaTelefonica").controller("listaTelefonicaCtrl", function ($scope, $http) {
-    
+angular.module("listaTelefonica").controller("listaTelefonicaCtrl", function ($scope, $http, $httpParamSerializer) {
+
     $scope.app = "Lista Telefônica";
 
     $scope.contatos = [];
@@ -24,12 +24,20 @@ angular.module("listaTelefonica").controller("listaTelefonicaCtrl", function ($s
 
     $scope.adicionarContato = function (contato) {
         contato.data = new Date();
-        $http.post("http://localhost:3412/contatos", contato).then(function (response) {
+        $http({
+            method: 'POST',
+            url: 'http://localhost:3412/contatos',
+            data: $httpParamSerializer(contato),
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+        }).then(function (response) {
+            console.log(response.data);
+            console.log(response);
+            console.log(contato);
             delete $scope.contato;
             $scope.contatoForm.$setPristine();
             carregarContatos();
-        }).catch(function () {
-            console.log('Erro no Post');
+        }).catch(function (error) {
+            console.log(error);
         });
     };
 
